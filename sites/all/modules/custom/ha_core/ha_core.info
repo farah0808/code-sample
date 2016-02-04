@@ -1,0 +1,5 @@
+name = HA Core
+core = 7.x
+version = 7.x-1.0
+description = HA Core custom code to rebuild HA Lighting site.
+

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_enable()
+ */
+function ha_core_enable() {
+  $theme = 'ha_lighting';
+
+  // Enable main theme and set it as default
+  theme_enable(array($theme));
+  variable_set('theme_default', $theme);
+
+  // Disable the original theme
+  theme_disable(array('bartik'));
+}
+

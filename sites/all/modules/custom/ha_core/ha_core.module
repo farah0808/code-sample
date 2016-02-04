@@ -1,0 +1,201 @@
+<?php
+
+/*  
+ * Implementation of hook_menu()  
+ */
+function ha_core_menu() {  
+  $items = array();
+  $items['admin/config/system/ha_settings'] = array(  
+    'title' => 'Homepage Settings',  
+    'description' => 'Staff configurable page with custom settings form.',  
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ha_core_settings_form'),
+    'access arguments' => array('administer site configuration'),  
+  );
+  return $items;  
+}  
+
+/**
+* Page callback: Custom settings form
+*/
+function ha_core_settings_form($form, &$form_state) {
+  $form['ha_home_h2'] = array(
+    '#type' => 'textfield',
+    '#title' => t("Homepage Welcome Title"),
+    '#default_value' => variable_get('ha_home_h2', 'Welcome to HA Lighting'),
+    '#size' => 50,
+    '#maxlength' => 200,
+    '#description' => t('The title displayed on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_home_message'] = array(
+    '#type' => 'textarea',
+    '#title' => t("Homepage Block 1 Content"),
+    '#default_value' => variable_get('ha_home_message', 'Welcome! Take a look around, but do not touch anything.'),
+    '#size' => 50,
+    '#maxlength' => 1500,
+    '#description' => t('The main content section on the homepage'),
+    '#required' => TRUE,
+  );
+
+  $form['ha_block_1_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t("Homepage Block 1 Title"),
+    '#default_value' => variable_get('ha_block_1_title', ''),
+    '#size' => 50,
+    '#maxlength' => 200,
+    '#description' => t('The title of the first block on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_block_1_image'] = array(
+   '#type' => 'managed_file',
+   '#name' => 'Services Image',
+   '#title' => t('Services Image'),
+   '#default_value' => variable_get('ha_block_1_image', ''),
+   '#description' => t("Upload Image for Services Block"),
+   '#required' => TRUE,
+   '#upload_location' => 'public://',
+   );
+  $form['ha_block_1_content'] = array(
+    '#type' => 'textarea',
+    '#title' => t("Homepage Block 1 Content"),
+    '#default_value' => variable_get('ha_block_1_content', ''),
+    '#size' => 50,
+    '#maxlength' => 1500,
+    '#description' => t('The content of the first block on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_block_2_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t("Homepage Block 2 Title"),
+    '#default_value' => variable_get('ha_block_2_title', ''),
+    '#size' => 50,
+    '#maxlength' => 200,
+    '#description' => t('The title of the second block on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_block_2_image'] = array(
+   '#type' => 'managed_file',
+   '#name' => 'Projets Image',
+   '#title' => t('Projects Image'),
+   '#default_value' => variable_get('ha_block_2_image', ''),
+   '#description' => t("Upload Image for Projects Block"),
+   '#required' => TRUE,
+   '#upload_location' => 'public://',
+   );
+  $form['ha_block_2_content'] = array(
+    '#type' => 'textarea',
+    '#title' => t("Homepage Block 2 Content"),
+    '#default_value' => variable_get('ha_block_2_content', ''),
+    '#size' => 50,
+    '#maxlength' => 1500,
+    '#description' => t('The content of the second block on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_block_3_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t("Homepage Block 3 Title"),
+    '#default_value' => variable_get('ha_block_3_title', ''),
+    '#size' => 50,
+    '#maxlength' => 200,
+    '#description' => t('The title of the third block on the homepage'),
+    '#required' => TRUE,
+  );
+  $form['ha_block_3_image'] = array(
+   '#type' => 'managed_file',
+   '#name' => 'Surveys Image',
+   '#title' => t('Surveys Image'),
+   '#default_value' => variable_get('ha_block_3_image', ''),
+   '#description' => t("Upload Image for Surveys Block"),
+   '#required' => TRUE,
+   '#upload_location' => 'public://',
+  );
+  $form['ha_block_3_content'] = array(
+    '#type' => 'textarea',
+    '#title' => t("Homepage Block 3 Content"),
+    '#default_value' => variable_get('ha_block_3_content', ''),
+    '#size' => 50,
+    '#maxlength' => 1500,
+    '#description' => t('The content of the third block on the homepage'),
+    '#required' => TRUE,
+  );
+  return system_settings_form($form); 
+}
+
+/**
+* Implements hook_block_info().
+*/
+function ha_core_block_info() {
+  $blocks = array();
+  $blocks['services_homepage_block'] = array(
+    'info' => t('Services Block'),
+    'status' => 1,
+    'region' => 'above_footer',
+  );
+ 
+  $blocks['projects_homepage_block'] = array(
+   'info' => t('Projects Block'),
+   'status' => 1,
+   'region' => 'above_footer',
+  );
+
+  $blocks['surveys_homepage_block'] = array(
+   'info' => t('Surveys Block'),
+   'status' => 1,
+   'region' => 'above_footer',
+  );
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function ha_core_block_view($delta = '') {
+  $block = array();
+
+  $file_id_1 = variable_get('ha_block_1_image', 0);
+  if (empty($file_id_1)) {
+     // User has not added images yet. Don't display blocks.
+    return array();
+  }
+  $file_object_1 = file_load($file_id_1);
+  $file_url_1 = file_create_url($file_object_1->uri);
+
+  $file_id_2 = variable_get('ha_block_2_image', 0);
+  $file_object_2 = file_load($file_id_2);
+  $file_url_2 = file_create_url($file_object_2->uri);
+
+  $file_id_3 = variable_get('ha_block_3_image', 0);
+  $file_object_3 = file_load($file_id_3);
+  $file_url_3 = file_create_url($file_object_3->uri);
+
+  switch ($delta) {
+    case 'services_homepage_block':
+      $output =  '<img width="305" height="180" align="center" src="'. $file_url_1 . '"/>' . '<p>' . variable_get('ha_block_1_content', '') . '</p>';
+      $block = array(
+        'subject' => variable_get('ha_block_1_title', ''),
+        'content' => $output,
+      );
+      break;
+    case 'projects_homepage_block':
+      $output =  '<img width="305" height="180" align="center" src="'. $file_url_2 . '"/>' . '<p>' . variable_get('ha_block_2_content', '') . '</p>';
+      $block = array(
+        'subject' => variable_get('ha_block_2_title', ''),
+        'content' => $output,
+      );
+      break;
+    case 'surveys_homepage_block':
+      $output =  '<img width="305" height="180" align="center" src="'. $file_url_3 . '"/>' . '<p>' . variable_get('ha_block_3_content', '') . '</p>';
+      $block = array(
+        'subject' => variable_get('ha_block_3_title', ''),
+        'content' => $output,
+      );
+      break;
+  }
+  if (drupal_is_front_page()) {
+    return $block;
+  } 
+  else {
+    return array();
+  }
+}
