@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+function farah8_page_alter(&$page) {
+  $page['#attached']['library'][] = 'js/index.js';
+}
+
+// // Allows responsive CSS to be added
+// function farah8_preprocess_html(&$variables) {
+
+//   $xuacompatible = [
+//     '#tag' => 'meta',
+//     '#attributes' => [
+//       'http-equiv' => 'x-ua-compatible',
+//       'content' => 'ie=edge',
+//     ],
+//   ];
+
+//   $variables['page']['#attached']['html_head'][] = [$xuacompatible, 'x-ua-compatible'];
+// }
+
+// Alters class name for search bar
+// function farah8_form_search_block_form_alter(&$form, &$form_state) {
+//   $form['keys']['#attributes']['placeholder'][] = t('Search');
+//   $form['actions']['submit']['#value'] = html_entity_decode('&#xf002;');
+//   $form['actions']['submit']['#attributes']['class'][] = 'search-button';
+// }

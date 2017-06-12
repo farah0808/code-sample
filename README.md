@@ -2,6 +2,12 @@
 
 Thank you for viewing my code sample for a Drupal position! 
 
-For a clearer picture of the type of work I have completed so far, (as this website is an ongoing project,) please reference sites/all/modules/custom/ha_core, sites/all/themes/ha_lighting/templates and sites/all/themes/ha_lighting/componenets/misc.css. 
+As a reference:
+	/sites/all pertains to Drupal 7, 
+	ekuber pertains to Drupal 8
 
-Let me know if you have any questions!
+Please let me know if you have any questions!
+
+Thank you,
+Farah Sabbagh
+farah0808@gmail.com

@@ -1,0 +1,166 @@
+{# Base Page #}
+<head>
+
+<script src="https://use.fontawesome.com/b3966a4542.js"></script>
+
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+</head>
+<div id="page-wrapper">
+    <div id="blog-page">
+      <body>
+        {% if page.navigation or page.navigation_collapsible %}
+          {% block navbar %}
+            {%
+              set navbar_classes = [
+                'navbar',
+                theme.settings.navbar_inverse ? 'navbar-inverse' : 'navbar-default',
+                theme.settings.navbar_position ? 'navbar-' ~ theme.settings.navbar_position|clean_class : container,
+              ]
+            %}
+          <header{{ navbar_attributes.addClass(navbar_classes) }} id="topnav" role="banner">
+            <div id="certs"></div>
+              {% if not navbar_attributes.hasClass('container') %}
+                <div class="{{ container }}">
+              {% endif %}
+              <div class="navbar-header">
+                {{ page.navigation }}
+                {# .btn-navbar is used as the toggle for collapsed navbar content #}
+                {% if page.navigation_collapsible %}
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">{{ 'Toggle navigation'|t }}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                {% endif %}
+              </div>
+
+            {# Navigation (collapsible) #}
+            {% if page.navigation_collapsible %}
+              <div id="navbar-collapse" class="navbar-collapse collapse">
+                {{ page.navigation_collapsible }}
+              </div>
+            {% endif %}
+            {% if not navbar_attributes.hasClass('container') %}
+              </div>
+            {% endif %}
+            <div id="nav-bg"></div>
+          </header>
+        {% endblock %}
+      {% endif %}
+
+        {# Side Social Menu #}
+        <div class="social-menu">
+          <ul class="fa-ul">
+            <li><a href="https://www.facebook.com/EKuber-Ventures-Inc-1132485006879256/" target="_blank"><i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i><span>Like</span></a></li>
+            <li><a href="https://twitter.com/Ekuberv" target="_blank"><i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i><span>Follow</span></a></li>
+            <li><a href="https://www.linkedin.com/company/ekuber-ventures-inc-" target="_blank"><i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i><span>Connect</span></a></li>
+            <li><a href="/contact" target="_blank"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i><span>Email</span></a></li>
+            <li><a href="https://plus.google.com/u/0/110888626455716818479" target="_blank"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i><span>Follow</span></a></li>
+            <li><a href="https://www.instagram.com/ekuberventures" target="_blank"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i><span>Follow</span></a></li>
+          </ul>
+        </div>
+
+
+      {# Main #}
+      {% block main %}
+        <div role="main" class="main-container {{ container }} js-quickedit-main-content">
+          <div class="row">
+            {# <div class="about"> #}
+
+            {# Header #}
+            {% if page.header %}
+              <nav class="main-navbar">
+                <div class="container-fluid">{{ page.header }}</div>
+              </nav>
+            {% endif %}
+
+            {# Sidebar First #}
+            {% if page.sidebar_first %}
+              {% block sidebar_first %}
+                <aside class="col-sm-3" role="complementary">
+                  {{ page.sidebar_first }}
+                </aside>
+              {% endblock %}
+            {% endif %}
+
+            {# Content #}
+            {%
+              set content_classes = [
+                page.sidebar_first and page.sidebar_second ? 'col-sm-6',
+                page.sidebar_first and page.sidebar_second is empty ? 'col-sm-9',
+                page.sidebar_second and page.sidebar_first is empty ? 'col-sm-9',
+                page.sidebar_first is empty and page.sidebar_second is empty ? 'col-sm-12'
+              ]
+            %}
+            <section{{ content_attributes.addClass(content_classes) }}>
+
+              {# Highlighted #}
+              {% if page.highlighted %}
+                {% block highlighted %}
+                  <div class="highlighted">{{ page.highlighted }}</div>
+                {% endblock %}
+              {% endif %}
+
+              {# Breadcrumbs #}
+              {% if breadcrumb %}
+                {% block breadcrumb %}
+                  {{ breadcrumb }}
+                {% endblock %}
+              {% endif %}
+
+              {# Action Links #}
+              {% if action_links %}
+                {% block action_links %}
+                  <ul class="action-links">{{ action_links }}</ul>
+                {% endblock %}
+              {% endif %}
+
+              {# Help #}
+              {% if page.help %}
+                {% block help %}
+                  {{ page.help }}
+                {% endblock %}
+              {% endif %}
+
+              {# Content #}
+              {% block content %}
+                <a id="main-content"></a>
+                {{ page.content }}
+                {{ page.region_one }}
+                {{ page.region_two }}
+                {{ page.region_three }}
+              {% endblock %}
+            </section>
+
+            {# Sidebar Second #}
+            {% if page.sidebar_second %}
+              {% block sidebar_second %}
+                <aside class="col-sm-3" role="complementary">
+                  {{ page.sidebar_second }}
+                </aside>
+              {% endblock %}
+            {% endif %}
+          </div>
+        </div>
+      {% endblock %}
+    </body>
+
+    {% if page.footer %}
+      {% block footer %}
+        <footer class="front-footer {{ container }}" role="contentinfo">
+          {{ page.footer }}
+        </footer>
+      {% endblock %}
+    {% endif %}
+  </div>
+</div>
+  <div id="link-top"><a href="javascript:" id="return-to-top"><i class="fa fa-chevron-circle-up fa-5x"></i></a></div>
+  {# Page Bottom #}
+  {% if page.bottom %}
+    {% block bottom %}
+      <div class="page_bottom"></div>
+      {{ page.bottom }}
+    {% endblock %}
+  {% endif %}
