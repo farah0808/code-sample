@@ -1,10 +1,11 @@
 # code-sample
 
-Thank you for viewing my code sample for a Drupal position! 
+Thank you for viewing my code sample! 
 
 As a reference:
-	/sites/all pertains to Drupal 7, 
-	ekuber pertains to Drupal 8
+
+	* Drupal 7 Sample pertains to Drupal 7 Theming and Custom Module development
+	* Drupal 8 Sample pertains to Drupal 8 Theming and Custom Module development
 
 Please let me know if you have any questions!
 
